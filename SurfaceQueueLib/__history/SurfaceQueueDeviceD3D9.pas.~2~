@@ -1,0 +1,271 @@
+//-----------------------------------------------------------------------------
+// Implementation of D3D9 Device Wrapper.  This is a simple wrapper around the
+// public D3D9Ex APIs that are necessary for the shared surface queue.  See
+// the comments in SharedSurfaceQueue.h to descriptions of these functions.
+//-----------------------------------------------------------------------------
+
+unit SurfaceQueueDeviceD3D9;
+
+{$IFDEF FPC}
+{$mode delphi}
+{$ENDIF}
+
+interface
+
+uses
+    Windows, Classes, SysUtils, SurfaceQueue, Direct3D9, DX12.DXGI;
+
+
+// D3D9Ex does not have an API to get shared handles.  We replicate that functionality
+// using setprivatedata.
+
+const
+    SharedHandleGuid: TGUID = '{91facf2d-e464-4495-84a6-37bed3568da3}';
+
+
+type
+    // Implementation of SurfaceQueueDevice for D3D9Ex
+
+    { TSurfaceQueueDeviceD3D9 }
+
+    TSurfaceQueueDeviceD3D9 = class(TInterfacedObject, ISurfaceQueueDevice)
+    private
+        m_pDevice: IDirect3DDevice9Ex;
+
+    public
+        function CreateSharedSurface(Width: UINT; Height: UINT; format: TDXGI_FORMAT; out ppSurface;
+            out phandle: THANDLE): HResult; stdcall;
+        function ValidateREFIID(const ID: TGUID): boolean; stdcall;
+        function OpenSurface(hSharedHandle: THANDLE; out ppUnknown; Width: UINT; Height: UINT; format: TDXGI_FORMAT): HResult; stdcall;
+        function GetSharedHandle(pUnknown: IUnknown; out pHandle: THANDLE): HResult; stdcall;
+        function CreateCopyResource(Format: TDXGI_FORMAT; Width: UINT; Height: UINT; out pRes: IUnknown): HResult; stdcall;
+
+        function CopySurface(pDst: IUnknown; pSrc: IUnknown; Width: UINT; Height: UINT): HResult; stdcall;
+        function LockSurface(pSurface: IUnknown; flags: DWORD): HResult; stdcall;
+        function UnlockSurface(pSurface: IUnknown): HResult; stdcall;
+
+        constructor Create(pD3D9Device: IDirect3DDevice9Ex);
+        destructor Destroy; override;
+
+
+    end;
+
+implementation
+
+
+// This function will convert from DXGI formats (d3d10/d3d11) to D3D9 formats.
+// Most formtas are not cross api shareable and for those the function will
+// return D3DFMT_UNKNOWN.
+
+function DXGIToCrossAPID3D9Format(Format: TDXGI_FORMAT): TD3DFORMAT;
+begin
+    case (Format) of
+
+        DXGI_FORMAT_B8G8R8A8_UNORM:
+            Result := D3DFMT_A8R8G8B8;
+        DXGI_FORMAT_B8G8R8A8_UNORM_SRGB:
+            Result := D3DFMT_A8R8G8B8;
+        DXGI_FORMAT_B8G8R8X8_UNORM:
+            Result := D3DFMT_X8R8G8B8;
+        DXGI_FORMAT_R8G8B8A8_UNORM:
+            Result := D3DFMT_A8B8G8R8;
+        DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
+            Result := D3DFMT_A8B8G8R8;
+        DXGI_FORMAT_R10G10B10A2_UNORM:
+            Result := D3DFMT_A2B10G10R10;
+        DXGI_FORMAT_R16G16B16A16_FLOAT:
+            Result := D3DFMT_A16B16G16R16F;
+        else
+            Result := D3DFMT_UNKNOWN;
+    end;
+end;
+
+{ TSurfaceQueueDeviceD3D9 }
+
+function TSurfaceQueueDeviceD3D9.CreateSharedSurface(Width: UINT; Height: UINT; format: TDXGI_FORMAT; out ppSurface;
+    out phandle: THANDLE): HResult;
+    stdcall;
+var
+    D3D9Format: TD3DFORMAT;
+    lHandle: THandle;
+begin
+    D3D9Format := DXGIToCrossAPID3D9Format(Format);
+
+    if (D3D9Format = D3DFMT_UNKNOWN) then
+    begin
+        Result := E_INVALIDARG;
+        exit;
+    end;
+    lHandle := 0;
+    Result := m_pDevice.CreateTexture(Width, Height, 1, D3DUSAGE_RENDERTARGET, D3D9Format, D3DPOOL_DEFAULT, IDirect3DTexture9(ppSurface), @lHandle);
+    pHandle:=lHandle;
+end;
+
+
+
+function TSurfaceQueueDeviceD3D9.ValidateREFIID(const ID: TGUID): boolean;
+    stdcall;
+begin
+    Result := IsEqualGUID(ID, IDirect3DTexture9);
+end;
+
+
+
+function TSurfaceQueueDeviceD3D9.OpenSurface(hSharedHandle: THANDLE; out ppUnknown; Width: UINT; Height: UINT;
+    format: TDXGI_FORMAT): HResult; stdcall;
+var
+    D3D9Format: TD3DFORMAT;
+    // ppTexture: IDirect3DTexture9;
+begin
+
+    // If the format is not cross api shareable the utility function will return
+    // D3DFMT_UNKNOWN
+    D3D9Format := DXGIToCrossAPID3D9Format(Format);
+    if (D3D9Format = D3DFMT_UNKNOWN) then
+    begin
+        Result := E_INVALIDARG;
+        Exit;
+    end;
+
+
+    Result := m_pDevice.CreateTexture(Width, Height, 1, D3DUSAGE_RENDERTARGET, D3D9Format, D3DPOOL_DEFAULT,
+        IDirect3DTexture9(ppUnknown), @hSharedHandle);
+    if (Result = S_OK) then
+    begin
+        // Store the shared handle
+        Result := IDirect3DTexture9(ppUnknown).SetPrivateData(SharedHandleGuid, @hSharedHandle, sizeof(THANDLE), 0);
+        if (Result <> S_OK) then
+        begin
+            pointer(ppUnknown) := nil;
+        end;
+    end;
+end;
+
+
+
+function TSurfaceQueueDeviceD3D9.GetSharedHandle(pUnknown: IUnknown; out pHandle: THANDLE): HResult; stdcall;
+var
+    pTexture: IDirect3DTexture9;
+    size: DWORD;
+begin
+    pHandle := 0;
+
+    Result := pUnknown.QueryInterface(IID_IDirect3DTexture9, pTexture);
+    if (Result <> S_OK) then
+        Exit;
+
+    size := sizeof(THANDLE);
+
+    Result := pTexture.GetPrivateData(SharedHandleGuid, @pHandle, size);
+    pTexture := nil;
+end;
+
+
+
+function TSurfaceQueueDeviceD3D9.CreateCopyResource(Format: TDXGI_FORMAT; Width: UINT; Height: UINT; out pRes: IUnknown): HResult; stdcall;
+var
+    D3D9Format: TD3DFORMAT;
+begin
+    D3D9Format := DXGIToCrossAPID3D9Format(Format);
+    if (D3D9Format = D3DFMT_UNKNOWN) then
+    begin
+        Result := E_INVALIDARG;
+        Exit;
+    end;
+    Result := m_pDevice.CreateRenderTarget(Width, Height, D3D9Format, D3DMULTISAMPLE_NONE, 0, True, IDirect3DSurface9(pRes), nil);
+end;
+
+
+
+function TSurfaceQueueDeviceD3D9.CopySurface(pDst: IUnknown; pSrc: IUnknown; Width: UINT; Height: UINT): HResult; stdcall;
+var
+    pSrcSurf: IDirect3DSurface9;
+    pDstSurf: IDirect3DSurface9;
+    pSrcTex: IDirect3DTexture9;
+    rect: TRect;
+begin
+
+    rect.Left := 0;
+    rect.Top := 0;
+    rect.Right := Width;
+    rect.Bottom := Height;
+
+    // The source should be a IDirect3DTexture9.  We need to QI for it and then get the
+    // top most surface from it.
+    Result := pSrc.QueryInterface(IID_IDirect3DTexture9, pSrcTex);
+    if (Result = S_OK) then
+        Result := pSrcTex.GetSurfaceLevel(0, pSrcSurf);
+
+    // The dst is a IDirect3DSurface9 so we can simply QI for it.
+    if (Result = S_OK) then
+        Result := IUnknown(pDst).QueryInterface(IID_IDirect3DSurface9, pDstSurf);
+    if (Result = S_OK) then
+        Result := m_pDevice.StretchRect(pSrcSurf, @rect, pDstSurf, @rect, D3DTEXF_NONE);
+
+    if pSrcTex <> nil then
+        pSrcTex := nil;
+    if pSrcSurf <> nil then
+        pSrcSurf := nil;
+    if pDstSurf <> nil then
+        pDstSurf := nil;
+
+end;
+
+
+
+function TSurfaceQueueDeviceD3D9.LockSurface(pSurface: IUnknown; flags: DWORD): HResult; stdcall;
+var
+    pSurf: IDirect3DSurface9;
+    d3d9flags: DWORD;
+    region: TD3DLOCKED_RECT;
+begin
+    d3d9flags := D3DLOCK_READONLY;
+
+    if (flags and Ord(SURFACE_QUEUE_FLAG_DO_NOT_WAIT) = Ord(SURFACE_QUEUE_FLAG_DO_NOT_WAIT)) then
+    begin
+        d3d9flags := d3d9flags or D3DLOCK_DONOTWAIT;
+    end;
+    Result := pSurface.QueryInterface(IID_IDirect3DSurface9, pSurf);
+    if Result = S_OK then
+        Result := pSurf.LockRect(region, nil, d3d9flags);
+
+    if (pSurf <> nil) then
+        pSurf := nil;
+
+    if (Result = D3DERR_WASSTILLDRAWING) then
+    begin
+        Result := DXGI_ERROR_WAS_STILL_DRAWING;
+    end;
+end;
+
+
+
+function TSurfaceQueueDeviceD3D9.UnlockSurface(pSurface: IUnknown): HResult;
+    stdcall;
+var
+    pSurf: IDirect3DSurface9;
+begin
+    Result := pSurface.QueryInterface(IID_IDirect3DSurface9, pSurf);
+    if Result = S_OK then
+        Result := pSurf.UnlockRect();
+    if (pSurf <> nil) then
+        pSurf := nil;
+end;
+
+
+
+constructor TSurfaceQueueDeviceD3D9.Create(pD3D9Device: IDirect3DDevice9Ex);
+begin
+    inherited Create;
+    m_pDevice := pD3D9Device;
+end;
+
+
+
+destructor TSurfaceQueueDeviceD3D9.Destroy;
+begin
+    m_pDevice := nil;
+    inherited Destroy;
+end;
+
+end.

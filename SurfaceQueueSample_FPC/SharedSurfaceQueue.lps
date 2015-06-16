@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="20">
+      <Unit0>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="417"/>
+        <CursorPos X="25" Y="436"/>
+        <UsageCount Value="38"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="SurfaceQueue.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="496"/>
+        <CursorPos Y="511"/>
+        <UsageCount Value="38"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="F:\DXNewLib\DelphiDX12\DX12.D3D10.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DX12.D3D10"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="2027"/>
+        <CursorPos X="29" Y="2042"/>
+        <UsageCount Value="38"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="F:\DXNewLib\DelphiDX12\DX12.D3D10_1.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="38"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="F:\DXNewLib\DelphiDX12\DX12.DXGI.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="38"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="SRWLock.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="41"/>
+        <CursorPos X="19" Y="51"/>
+        <UsageCount Value="38"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="SurfaceQueueDeviceD3D9.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="80"/>
+        <CursorPos X="53" Y="85"/>
+        <UsageCount Value="33"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="SurfaceQueueDeviceD3D10.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="78"/>
+        <CursorPos X="139" Y="94"/>
+        <UsageCount Value="27"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="C:\codetyphon\typhon\components\pl_Win_DirectX\source\Direct3D9.pas"/>
+        <UnitName Value="Direct3D9"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="3814"/>
+        <CursorPos X="24" Y="99"/>
+        <UsageCount Value="19"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="F:\DXNewLib\DelphiDX12\DX12.D3DX10.pas"/>
+        <UnitName Value="DX12.D3DX10"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="257"/>
+        <CursorPos X="5" Y="260"/>
+        <UsageCount Value="18"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="C:\codetyphon\typhon\components\pl_Win_DirectX\source\D3DX9.pas"/>
+        <UnitName Value="D3DX9"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="1579"/>
+        <CursorPos X="14" Y="1593"/>
+        <UsageCount Value="17"/>
+        <Loaded Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="F:\DXNewLib\DelphiDX12\DX12.D3DCommon.pas"/>
+        <UnitName Value="DX12.D3DCommon"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="71"/>
+        <CursorPos X="5" Y="85"/>
+        <UsageCount Value="17"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="C:\codetyphon\fpcsrc\rtl\inc\objpash.inc"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="273"/>
+        <CursorPos X="20" Y="287"/>
+        <UsageCount Value="17"/>
+        <Loaded Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="C:\codetyphon\fpcsrc\rtl\inc\systemh.inc"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="1220"/>
+        <CursorPos X="11" Y="1234"/>
+        <UsageCount Value="14"/>
+        <Loaded Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="C:\codetyphon\fpcsrc\rtl\win\wininc\struct.inc"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="1462"/>
+        <CursorPos X="37" Y="1480"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\SurfaceQueueLib\SRWLock.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SRWLock"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="..\SurfaceQueueLib\SurfaceQueue.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SurfaceQueue"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="1655"/>
+        <CursorPos X="41" Y="1682"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\SurfaceQueueLib\SurfaceQueueDeviceD3D9.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SurfaceQueueDeviceD3D9"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\SurfaceQueueLib\SurfaceQueueDeviceD3D10.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SurfaceQueueDeviceD3D10"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="..\SurfaceQueueLib\SurfaceQueueDeviceD3D11.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SurfaceQueueDeviceD3D11"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit19>
+    </Units>
+    <JumpHistory Count="18" HistoryIndex="17">
+      <Position1>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="279" Column="38" TopLine="266"/>
+      </Position1>
+      <Position2>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="281" Column="25" TopLine="266"/>
+      </Position2>
+      <Position3>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="43" Column="27" TopLine="30"/>
+      </Position3>
+      <Position4>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="393" TopLine="379"/>
+      </Position4>
+      <Position5>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="394" TopLine="379"/>
+      </Position5>
+      <Position6>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="390" TopLine="379"/>
+      </Position6>
+      <Position7>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="545" TopLine="531"/>
+      </Position7>
+      <Position8>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="392" TopLine="377"/>
+      </Position8>
+      <Position9>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="545" TopLine="531"/>
+      </Position9>
+      <Position10>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="393" TopLine="379"/>
+      </Position10>
+      <Position11>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="394" TopLine="379"/>
+      </Position11>
+      <Position12>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="393" TopLine="379"/>
+      </Position12>
+      <Position13>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="547" TopLine="533"/>
+      </Position13>
+      <Position14>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="551" TopLine="533"/>
+      </Position14>
+      <Position15>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="547" TopLine="533"/>
+      </Position15>
+      <Position16>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="551" TopLine="533"/>
+      </Position16>
+      <Position17>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="3" Column="14"/>
+      </Position17>
+      <Position18>
+        <Filename Value="SharedSurfaceQueue.lpr"/>
+        <Caret Line="9" Column="14"/>
+      </Position18>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>
